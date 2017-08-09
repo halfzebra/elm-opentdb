@@ -1,7 +1,7 @@
 module Data.Question exposing (Question, decoder)
 
 import Json.Decode exposing (Decoder, map, map4, field, list, string)
-import Util exposing (replaceHtmlEntities, toBool)
+import Util exposing (replaceHtmlEntities)
 
 
 type alias Question =

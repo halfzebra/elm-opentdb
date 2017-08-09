@@ -4,7 +4,7 @@ import Json.Decode exposing (Decoder, field, map2, list, int)
 import Data.Question exposing (Question)
 import Data.Difficulty exposing (Difficulty(..))
 import Http exposing (Error)
-import Util exposing ((=>))
+import Util exposing ((=>), appendIf)
 import Request.Helpers exposing (queryString)
 
 
@@ -39,19 +39,13 @@ apiUrl str =
 triviaUrl : Int -> Difficulty -> String
 triviaUrl amount difficulty =
     let
+        difficultyValue : String
         difficultyValue =
             String.toLower (Data.Difficulty.toString difficulty)
-
-        appendIf flag value list =
-            if flag == True then
-                value :: list
-            else
-                list
     in
         [ "amount" => (toString amount) ]
             |> appendIf (difficulty /= Any) ("difficulty" => difficultyValue)
             |> queryString
-            |> (++) ("?")
             |> apiUrl
 
 

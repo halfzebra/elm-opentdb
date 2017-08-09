@@ -193,8 +193,7 @@ view { state } =
             Playing list ->
                 let
                     current =
-                        list
-                            |> Data.TriviaZipList.current
+                        Data.TriviaZipList.current list
 
                     length =
                         list
