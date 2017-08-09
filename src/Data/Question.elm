@@ -13,10 +13,15 @@ type alias Question =
     }
 
 
+stringWithHtmlEntities : Decoder String
+stringWithHtmlEntities =
+    map replaceHtmlEntities string
+
+
 decoder : Decoder Question
 decoder =
     map4 (Question Nothing)
         (field "category" string)
-        (field "question" (map replaceHtmlEntities string))
+        (field "question" stringWithHtmlEntities)
         (field "correct_answer" string)
-        (field "incorrect_answers" (list string))
+        (field "incorrect_answers" (list stringWithHtmlEntities))
