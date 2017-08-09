@@ -12,7 +12,7 @@ import View.Finish
 import View.Button
 import View.Form
 import Request.TriviaQuestions exposing (TriviaResult)
-import Util exposing (onChange)
+import Util exposing (onChange, (=>))
 
 
 ---- MODEL ----
@@ -159,7 +159,11 @@ view { state } =
         , case state of
             Config { amount, difficulty } ->
                 div
-                    [ class "form-inline" ]
+                    [ style
+                        [ "max-width" => "300px"
+                        , "margin" => "0 auto"
+                        ]
+                    ]
                     [ View.Form.group
                         [ label [] [ text "Amount of questions" ]
                         , input
