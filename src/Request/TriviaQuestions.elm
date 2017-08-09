@@ -4,6 +4,8 @@ import Json.Decode exposing (Decoder, field, map2, list, int)
 import Data.Question exposing (Question)
 import Data.Difficulty exposing (Difficulty(..))
 import Http exposing (Error)
+import Util exposing ((=>))
+import Request.Helpers exposing (queryString)
 
 
 type alias TriviaResult =
@@ -36,16 +38,21 @@ apiUrl str =
 
 triviaUrl : Int -> Difficulty -> String
 triviaUrl amount difficulty =
-    apiUrl
-        ("?amount="
-            ++ (toString amount)
-            ++ "&type=boolean"
-            ++ (if difficulty /= Any then
-                    "&difficulty=" ++ (String.toLower (Data.Difficulty.toString difficulty))
-                else
-                    ""
-               )
-        )
+    let
+        difficultyValue =
+            String.toLower (Data.Difficulty.toString difficulty)
+
+        appendIf flag value list =
+            if flag == True then
+                value :: list
+            else
+                list
+    in
+        [ "amount" => (toString amount) ]
+            |> appendIf (difficulty /= Any) ("difficulty" => difficultyValue)
+            |> queryString
+            |> (++) ("?")
+            |> apiUrl
 
 
 get : Int -> Difficulty -> (Result Error TriviaResult -> msg) -> Cmd msg
