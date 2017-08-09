@@ -1,0 +1,54 @@
+module Request.TriviaQuestions exposing (..)
+
+import Json.Decode exposing (Decoder, field, map2, list, int)
+import Data.Question exposing (Question)
+import Data.Difficulty exposing (Difficulty(..))
+import Http exposing (Error)
+
+
+type alias TriviaResult =
+    { responseCode : Int
+    , questions : List Question
+    }
+
+
+decoder : Decoder TriviaResult
+decoder =
+    map2 TriviaResult
+        (field "response_code"
+            (int
+                |> Json.Decode.andThen
+                    (\val ->
+                        if val /= 0 then
+                            Json.Decode.fail "Failed to retrieve Trivia Questions"
+                        else
+                            Json.Decode.succeed val
+                    )
+            )
+        )
+        (field "results" (list Data.Question.decoder))
+
+
+apiUrl : String -> String
+apiUrl str =
+    "https://opentdb.com/api.php" ++ str
+
+
+triviaUrl : Int -> Difficulty -> String
+triviaUrl amount difficulty =
+    apiUrl
+        ("?amount="
+            ++ (toString amount)
+            ++ "&type=boolean"
+            ++ (if difficulty /= Any then
+                    "&difficulty=" ++ (String.toLower (Data.Difficulty.toString difficulty))
+                else
+                    ""
+               )
+        )
+
+
+get : Int -> Difficulty -> (Result Error TriviaResult -> msg) -> Cmd msg
+get amount difficulty msg =
+    Http.get (triviaUrl amount difficulty) decoder
+        |> Http.send msg
