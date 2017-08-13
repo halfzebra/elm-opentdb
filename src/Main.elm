@@ -3,7 +3,6 @@ module Main exposing (..)
 import Html exposing (Html, text, div, label, select, option, input, h1)
 import Html.Attributes exposing (value, type_, selected, class, attribute, style)
 import Http exposing (Error)
-import Dict exposing (Dict)
 import Data.TriviaZipList exposing (TriviaZipList)
 import Data.Difficulty exposing (Difficulty(..))
 import View.Question
@@ -15,7 +14,7 @@ import Request.TriviaQuestions exposing (TriviaResult)
 import Util exposing (onChange, (=>))
 
 
----- MODEL ----
+-- MODEL
 
 
 type GameState
@@ -42,7 +41,7 @@ init =
 
 
 
----- UPDATE ----
+-- UPDATE
 
 
 type Msg
@@ -75,6 +74,7 @@ update msg model =
             case res of
                 Ok { questions } ->
                     let
+                        triviaZipList : TriviaZipList
                         triviaZipList =
                             Data.TriviaZipList.createTriviaZipList questions
                     in
@@ -129,7 +129,7 @@ update msg model =
 
 
 
----- VIEW ----
+-- VIEW
 
 
 amountTagger : Result String Int -> Msg

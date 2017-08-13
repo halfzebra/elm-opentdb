@@ -9,6 +9,7 @@ import View.Form
 view : Question -> (String -> msg) -> Html msg
 view { question, correct, incorrect } answerMsg =
     let
+        answers : List String
         answers =
             List.sort (correct :: incorrect)
     in

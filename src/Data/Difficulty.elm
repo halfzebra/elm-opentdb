@@ -1,6 +1,5 @@
 module Data.Difficulty exposing (Difficulty, toString, get, keys, isAny, default)
 
-import Dict exposing (Dict)
 import Util exposing ((=>))
 
 
