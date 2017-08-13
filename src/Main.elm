@@ -182,7 +182,7 @@ view { state } =
                             [ onChange (ChangeDifficulty << Data.Difficulty.byName)
                             , class "form-control"
                             ]
-                            (Data.Difficulty.list
+                            (Data.Difficulty.dict
                                 |> Dict.keys
                                 |> List.map (difficultyOption difficulty)
                             )

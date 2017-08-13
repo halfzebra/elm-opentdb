@@ -1,4 +1,4 @@
-module Data.Difficulty exposing (Difficulty(..), list, toString, byName)
+module Data.Difficulty exposing (Difficulty(..), dict, toString, byName)
 
 import Dict exposing (Dict)
 import Util exposing ((=>))
@@ -11,8 +11,8 @@ type Difficulty
     | Hard
 
 
-list : Dict String Difficulty
-list =
+dict : Dict String Difficulty
+dict =
     Dict.fromList
         [ "Any" => Any
         , "Easy" => Easy
@@ -23,16 +23,16 @@ list =
 
 byName : String -> Difficulty
 byName name =
-    list
+    dict
         |> Dict.get name
         |> Maybe.withDefault Any
 
 
 toString : Difficulty -> String
 toString tag =
-    list
+    dict
         |> Dict.filter (\key value -> value == tag)
         |> Dict.toList
         |> List.head
-        |> Maybe.map (\( a, _ ) -> a)
+        |> Maybe.map Tuple.first
         |> Maybe.withDefault "Any"
