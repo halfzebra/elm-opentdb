@@ -36,6 +36,6 @@ replaceHtmlEntities str =
 appendIf : Bool -> a -> List a -> List a
 appendIf flag value list =
     if flag == True then
-        value :: list
+        list ++ [ value ]
     else
         list
