@@ -10,6 +10,7 @@ import View.Loading
 import View.Finish
 import View.Button
 import View.Form
+import View.Difficulty
 import Request.TriviaQuestions exposing (TriviaResult)
 import Util exposing (onChange, (=>))
 
@@ -142,15 +143,6 @@ amountTagger res =
             NoOp
 
 
-difficultyOption : Difficulty -> String -> Html msg
-difficultyOption current name =
-    option
-        [ selected ((Data.Difficulty.toString current) == name)
-        , value name
-        ]
-        [ text name ]
-
-
 view : Model -> Html Msg
 view { state } =
     div
@@ -182,8 +174,9 @@ view { state } =
                             [ onChange (ChangeDifficulty << Data.Difficulty.get)
                             , class "form-control"
                             ]
-                            (Data.Difficulty.keys
-                                |> List.map (difficultyOption difficulty)
+                            (List.map
+                                (View.Difficulty.option difficulty)
+                                Data.Difficulty.keys
                             )
                         ]
                     , View.Button.btn Start "Start"
