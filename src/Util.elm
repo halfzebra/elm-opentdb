@@ -22,9 +22,9 @@ replace needle replaceWith haystack =
 
 htmlEntities : List ( String, String )
 htmlEntities =
-    [ ( "&#039;", "'" )
-    , ( "&rsquo;", "'" )
-    , ( "&quot;", "\"" )
+    [ "&#039;" => "'"
+    , "&rsquo;" => "'"
+    , "&quot;" => "\""
     ]
 
 
