@@ -36,7 +36,7 @@ type alias GameResults =
 
 init : ( Model, Cmd Msg )
 init =
-    ( Model (Config { amount = 5, difficulty = Easy })
+    ( Model (Config { amount = 5, difficulty = Data.Difficulty.default })
     , Cmd.none
     )
 
@@ -154,7 +154,9 @@ difficultyOption current name =
 view : Model -> Html Msg
 view { state } =
     div
-        [ class "container", style [ ( "text-align", "center" ) ] ]
+        [ class "container"
+        , style [ ( "text-align", "center" ) ]
+        ]
         [ h1 [] [ text "Open Trivia" ]
         , case state of
             Config { amount, difficulty } ->
@@ -166,24 +168,21 @@ view { state } =
                     ]
                     [ View.Form.group
                         [ label [] [ text "Amount of questions" ]
-                        , input
+                        , View.Form.input
                             [ value (toString amount)
                             , onChange (amountTagger << String.toInt)
                             , type_ "number"
                             , Html.Attributes.min (toString 1)
                             , Html.Attributes.max (toString 50)
-                            , class "form-control"
                             ]
-                            []
                         ]
                     , View.Form.group
                         [ label [] [ text "Difficulty" ]
                         , select
-                            [ onChange (ChangeDifficulty << Data.Difficulty.byName)
+                            [ onChange (ChangeDifficulty << Data.Difficulty.get)
                             , class "form-control"
                             ]
-                            (Data.Difficulty.dict
-                                |> Dict.keys
+                            (Data.Difficulty.keys
                                 |> List.map (difficultyOption difficulty)
                             )
                         ]
