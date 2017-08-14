@@ -170,14 +170,7 @@ view { state } =
                         ]
                     , View.Form.group
                         [ label [] [ text "Difficulty" ]
-                        , select
-                            [ onChange (ChangeDifficulty << Data.Difficulty.get)
-                            , class "form-control"
-                            ]
-                            (List.map
-                                (View.Difficulty.option difficulty)
-                                Data.Difficulty.keys
-                            )
+                        , View.Difficulty.select difficulty ChangeDifficulty
                         ]
                     , View.Button.btn Start "Start"
                     ]
