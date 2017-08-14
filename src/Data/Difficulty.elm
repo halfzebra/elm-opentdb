@@ -10,6 +10,11 @@ type Difficulty
     | Hard
 
 
+default : Difficulty
+default =
+    Any
+
+
 list : List ( String, Difficulty )
 list =
     [ "Any" => Any
@@ -47,8 +52,3 @@ toString tag =
 isAny : Difficulty -> Bool
 isAny difficulty =
     difficulty == Any
-
-
-default : Difficulty
-default =
-    Any
