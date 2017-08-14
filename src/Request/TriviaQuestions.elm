@@ -1,4 +1,4 @@
-module Request.TriviaQuestions exposing (..)
+module Request.TriviaQuestions exposing (TriviaResult, get, decoder)
 
 import Json.Decode exposing (Decoder, field, map2, list, int)
 import Data.Question exposing (Question)
