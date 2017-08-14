@@ -2,6 +2,7 @@ module Main exposing (..)
 
 import Html exposing (Html, text, div, label, select, option, input, h1)
 import Html.Attributes exposing (value, type_, selected, class, attribute, style)
+import Html.Lazy
 import Http exposing (Error)
 import Data.TriviaZipList exposing (TriviaZipList)
 import Data.Difficulty exposing (Difficulty(..))
@@ -9,6 +10,7 @@ import View.Question
 import View.Loading
 import View.Finish
 import View.Button
+import View.Fail
 import View.Form
 import View.Difficulty
 import Request.TriviaQuestions exposing (TriviaResult)
@@ -194,7 +196,7 @@ view { state } =
                         []
                         [ View.Form.group
                             [ View.Button.btnPrimary Restart "Start over" ]
-                        , text (currentIndex ++ "/" ++ length)
+                        , (Html.Lazy.lazy text) (currentIndex ++ "/" ++ length)
                         , View.Question.view current Answer
                         , View.Form.group [ View.Button.btn Skip "Skip" ]
                         , View.Button.btnSuccess SubmitAnswers "Submit answers"
@@ -204,14 +206,13 @@ view { state } =
                 View.Loading.view
 
             Finish { score, total } ->
-                View.Finish.view (toString score) (toString total) Restart
+                (Html.Lazy.lazy3 View.Finish.view)
+                    (toString score)
+                    (toString total)
+                    Restart
 
             Fail err ->
-                div
-                    [ class "alert alert-danger"
-                    , attribute "role" "alert"
-                    ]
-                    [ text err ]
+                (Html.Lazy.lazy View.Fail.view) err
         ]
 
 
