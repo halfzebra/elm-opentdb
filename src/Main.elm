@@ -1,7 +1,7 @@
 module Main exposing (..)
 
 import Html exposing (Html, text, div, label, select, option, input, h1)
-import Html.Attributes exposing (value, type_, selected, class, attribute, style)
+import Html.Attributes exposing (value, type_, selected, attribute, style)
 import Html.Lazy
 import Http exposing (Error)
 import Data.TriviaZipList exposing (TriviaZipList)
@@ -15,6 +15,12 @@ import View.Form
 import View.Difficulty
 import Request.TriviaQuestions exposing (TriviaResult)
 import Util exposing (onChange, (=>))
+import SharedStyles exposing (..)
+
+
+{ class } =
+    triviaNamespace
+
 
 
 -- MODEL
@@ -148,17 +154,14 @@ amountTagger res =
 view : Model -> Html Msg
 view { state } =
     div
-        [ class "container"
-        , style [ ( "text-align", "center" ) ]
+        [ Html.Attributes.class "container"
+        , class [ TriviaContainer ]
         ]
         [ h1 [] [ text "Open Trivia" ]
         , case state of
             Config { amount, difficulty } ->
                 div
-                    [ style
-                        [ "max-width" => "300px"
-                        , "margin" => "0 auto"
-                        ]
+                    [ class [ ConfigForm ]
                     ]
                     [ View.Form.group
                         [ label [] [ text "Amount of questions" ]
