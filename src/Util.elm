@@ -1,8 +1,9 @@
-module Util exposing ((=>), onChange, replaceHtmlEntities, appendIf)
+module Util exposing ((=>), onChange, decodeHtmlEntities, appendIf)
 
 import Html exposing (Attribute)
 import Html.Events exposing (on, targetValue)
 import Json.Decode
+import Http
 
 
 (=>) : a -> b -> ( a, b )
@@ -15,23 +16,11 @@ onChange tagger =
     on "change" (Json.Decode.map tagger targetValue)
 
 
-replace : String -> String -> String -> String
-replace needle replaceWith haystack =
-    String.join replaceWith (String.split needle haystack)
-
-
-htmlEntities : List ( String, String )
-htmlEntities =
-    [ "&#039;" => "'"
-    , "&rsquo;" => "'"
-    , "&quot;" => "\""
-    , "&eacute;" => "é"
-    ]
-
-
-replaceHtmlEntities : String -> String
-replaceHtmlEntities str =
-    List.foldl (uncurry replace) str htmlEntities
+decodeHtmlEntities : String -> String
+decodeHtmlEntities str =
+    str
+        |> Http.decodeUri
+        |> Maybe.withDefault ""
 
 
 appendIf : Bool -> a -> List a -> List a
