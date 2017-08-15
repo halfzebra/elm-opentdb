@@ -13,7 +13,7 @@ import View.Button
 import View.Fail
 import View.Form
 import View.Difficulty
-import Request.TriviaQuestions exposing (TriviaResult)
+import Request.TriviaQuestions exposing (TriviaResult, codeToError)
 import Util exposing (onChange, (=>))
 
 
@@ -75,15 +75,18 @@ update msg model =
 
         ( GetQuestions res, Loading ) ->
             case res of
-                Ok { questions } ->
-                    let
-                        triviaZipList : TriviaZipList
-                        triviaZipList =
-                            Data.TriviaZipList.createTriviaZipList questions
-                    in
-                        ( { model | state = Playing triviaZipList }
-                        , Cmd.none
-                        )
+                Ok { code, questions } ->
+                    ( if code == 0 then
+                        let
+                            triviaZipList : TriviaZipList
+                            triviaZipList =
+                                Data.TriviaZipList.createTriviaZipList questions
+                        in
+                            { model | state = Playing triviaZipList }
+                      else
+                        { model | state = Fail (codeToError code) }
+                    , Cmd.none
+                    )
 
                 Err err ->
                     ( { model | state = Fail (toString err) }
