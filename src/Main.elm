@@ -1,4 +1,4 @@
-module Main exposing (..)
+port module Main exposing (..)
 
 import Html exposing (Html, text, div, label, select, option, input, h1)
 import Html.Attributes exposing (value, type_, selected, class, attribute, style)
@@ -16,6 +16,10 @@ import View.Form
 import View.Difficulty
 import Request.TriviaQuestions exposing (TriviaResult, codeToError)
 import Util exposing (onChange, (=>))
+
+
+port results : GameResults -> Cmd msg
+
 
 
 -- MODEL
@@ -111,7 +115,7 @@ update msg model =
                         (Data.TriviaZipList.length zipList)
             in
                 ( { model | state = Finish getGameResults }
-                , Cmd.none
+                , results getGameResults
                 )
 
         ( Skip, Playing zipList ) ->
