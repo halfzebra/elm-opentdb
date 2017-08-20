@@ -29,7 +29,7 @@ suite =
                            "category":"Entertainment: Japanese Anime & Manga",
                            "type":"boolean",
                            "difficulty":"easy",
-                           "question":"Studio Ghibli is a Japanese animation studio responsible for the films &quot;Wolf Children&quot; and &quot;The Boy and the Beast&quot;.",
+                           "question":"Studio Ghibli is a Japanese animation studio responsible for the films Wolf Children and The Boy and the Beast.",
                            "correct_answer":"False",
                            "incorrect_answers":[
                               "True"
@@ -44,27 +44,11 @@ suite =
                         (Ok
                             (Question
                                 Nothing
-                                "Studio Ghibli is a Japanese animation studio responsible for the films \"Wolf Children\" and \"The Boy and the Beast\"."
+                                "Studio Ghibli is a Japanese animation studio responsible for the films Wolf Children and The Boy and the Beast."
                                 "False"
                                 [ "True" ]
                             )
                         )
-            )
-        , test "Request.TriviaQuestions.decoder fails on non-zero code"
-            (\() ->
-                let
-                    input =
-                        """
-                        {
-                           "response_code":1,
-                           "results":[]
-                        }
-                        """
-
-                    decodedOutput =
-                        Json.Decode.decodeString Request.TriviaQuestions.decoder input
-                in
-                    Expect.equal (success decodedOutput) False
             )
         , test "Request.TriviaQuestions.decoder can decode correct JSON"
             (\() ->
