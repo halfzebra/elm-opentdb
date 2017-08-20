@@ -6,6 +6,7 @@ import Html.Lazy
 import Http exposing (Error)
 import Data.TriviaZipList exposing (TriviaZipList)
 import Data.Difficulty exposing (Difficulty(..))
+import Data.GameResults exposing (GameResults)
 import View.Question
 import View.Loading
 import View.Finish
@@ -30,10 +31,6 @@ type GameState
 
 type alias Model =
     { state : GameState }
-
-
-type alias GameResults =
-    { score : Int, total : Int }
 
 
 init : ( Model, Cmd Msg )
